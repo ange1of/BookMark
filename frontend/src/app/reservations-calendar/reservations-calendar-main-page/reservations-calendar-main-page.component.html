@@ -1,0 +1,96 @@
+<div class="d-flex" [formGroup]="filtersForm">
+  <mat-form-field appearance="standard" class="col-4 m-2">
+    <mat-label>Тип объекта</mat-label>
+    <mat-select formControlName="booking_object_type">
+      <mat-option *ngFor="let elem of objectTree" value="{{elem.id}}">{{elem.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="standard" class="col-4 m-2">
+    <mat-label>Объекты</mat-label>
+    <mat-select formControlName="booking_objects" [multiple]="true">
+      <mat-option *ngFor="let elem of bookingObjects" value="{{elem.id}}">
+        {{elem.title}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button (click)="openCreateReservationDialog()"
+          class="mx-2 my-auto add-reservation-button">
+    <mat-icon>add</mat-icon>Создать бронирование
+  </button>
+</div>
+<mat-divider></mat-divider>
+
+<div class="col-12 d-flex text-center mt-3 mb-3">
+  <div class="col-4">
+    <div class="btn-group">
+      <button mat-stroked-button color="primary"
+              class="btn" mwlCalendarPreviousView
+              [view]="view" [(viewDate)]="viewDate"
+              (viewDateChange)="handleViewDateChange()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <button mat-stroked-button color="basic"
+              class="btn" mwlCalendarToday [(viewDate)]="viewDate"
+              (viewDateChange)="handleViewDateChange()">
+        Сегодня
+      </button>
+      <button mat-stroked-button color="primary"
+              class="btn" mwlCalendarNextView
+              [view]="view" [(viewDate)]="viewDate"
+              (viewDateChange)="handleViewDateChange()">
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="col-4">
+    <h2>{{ viewDate | calendarDate:(view + 'ViewTitle'):'ru':1 }}</h2>
+  </div>
+  <div class="col-4">
+    <div class="btn-group">
+      <button mat-stroked-button color="{{view === CalendarView.Month ? 'primary': 'basic' }}"
+              class="btn" (click)="setView(CalendarView.Month)">
+        Месяц
+      </button>
+      <button mat-stroked-button color="{{view === CalendarView.Week ? 'primary': 'basic' }}"
+              class="btn" (click)="setView(CalendarView.Week)">
+        Неделя
+      </button>
+      <button mat-stroked-button color="{{view === CalendarView.Day ? 'primary': 'basic' }}"
+              class="btn" (click)="setView(CalendarView.Day)">
+        День
+      </button>
+    </div>
+  </div>
+</div>
+
+<div [ngSwitch]="view" class="m-2">
+  <mwl-calendar-month-view
+    *ngSwitchCase="CalendarView.Month"
+    [viewDate]="viewDate"
+    [locale]="'ru'"
+    [weekStartsOn]="1"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="openReservationDialog($event.event.id)"></mwl-calendar-month-view>
+
+  <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="events"
+    [dayStartHour]="7"
+    [locale]="'ru'"
+    [hourSegments]="1"
+    [weekStartsOn]="1"
+    [refresh]="refresh"
+    (eventClicked)="openReservationDialog($event.event.id)"></mwl-calendar-week-view>
+
+  <mwl-calendar-day-view
+    *ngSwitchCase="CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="events"
+    [dayStartHour]="7"
+    [locale]="'ru'"
+    [refresh]="refresh"
+    (eventClicked)="openReservationDialog($event.event.id)"></mwl-calendar-day-view>
+</div>

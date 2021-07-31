@@ -1,0 +1,250 @@
+<div class="d-flex">
+  <button mat-raised-button (click)="toggleFilters()" class="my-3 mx-2"
+          title="{{(showFilters ? 'Скрыть' : 'Открыть') + ' фильтры'}}">
+    <mat-icon>filter_alt</mat-icon>
+    <mat-icon>{{ showFilters ? 'expand_less' : 'expand_more' }}</mat-icon>
+  </button>
+  <button [disabled]="filtersForm.pristine" mat-raised-button (click)="clearFilters()"
+          class="my-3 mx-2" title="Очистить фильтры" color="warn">
+    <mat-icon>backspace</mat-icon>
+  </button>
+  <button mat-raised-button (click)="openReservationDialog()" class="my-3 mx-2">
+    <mat-icon>add</mat-icon>Создать бронирование
+  </button>
+  <button *ngIf="!selection.isEmpty()" mat-raised-button
+          color="warn" class="my-3 mx-2"
+          (click)="this.openRemoveReservationsDialog()">Удалить</button>
+</div>
+<mat-divider></mat-divider>
+<form *ngIf="showFilters" class="p-3 col-12" [formGroup]="filtersForm">
+  <div class="row">
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Статус бронирования</mat-label>
+      <mat-select [formControlName]="'state'">
+        <mat-option *ngFor="let elem of reservationStates" value="{{elem.value}}">
+          {{elem.title}}</mat-option>
+      </mat-select>
+      <button *ngIf="filtersForm.controls.state.value"
+              mat-icon-button matSuffix title="Очистить"
+              (click)="$event.stopPropagation();filtersForm.controls.state.reset()">
+        <mat-icon color="primary">clear</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Тип объекта</mat-label>
+      <mat-select [formControlName]="'booking_object_type'">
+        <mat-option *ngFor="let elem of bookingObjectTypes" value="{{elem.value}}">
+          {{elem.title}}</mat-option>
+      </mat-select>
+      <button *ngIf="filtersForm.controls.booking_object_type.value"
+              mat-icon-button matSuffix title="Очистить"
+              (click)="$event.stopPropagation();
+              filtersForm.controls.booking_object_type.reset();
+              filtersForm.controls.booking_objects.reset();">
+        <mat-icon color="primary">clear</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Объекты</mat-label>
+      <mat-select [formControlName]="'booking_objects'" multiple>
+        <mat-option *ngFor="let elem of bookingObjects" value="{{elem.id}}">
+          <b>{{elem.title}}</b> ({{elem.pricing_type_display}} {{elem.price}}р.)
+        </mat-option>
+      </mat-select>
+      <button *ngIf="filtersForm.controls.booking_objects.value &&
+                     filtersForm.controls.booking_objects.value.length"
+              mat-icon-button matSuffix title="Очистить"
+              (click)="$event.stopPropagation();filtersForm.controls.booking_objects  .reset()">
+        <mat-icon color="primary">clear</mat-icon>
+      </button>
+      <mat-hint *ngIf="!filtersForm.controls.booking_object_type.value">
+        Необходимо сначала выбрать тип объекта
+      </mat-hint>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>№ бронирования</mat-label>
+      <input matInput type="text" [formControlName]="'id'">
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Номер телефона клиента</mat-label>
+      <input matInput type="text" [formControlName]="'client_phone'">
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Имя клиента</mat-label>
+      <input matInput type="text" [formControlName]="'client_name'">
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Даты начала бронирования</mat-label>
+      <mat-date-range-input [rangePicker]="startPicker">
+        <input matStartDate [formControlName]="'start_from'" placeholder="Начало, с">
+        <input matEndDate [formControlName]="'start_to'" placeholder="Начало, по">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #startPicker>
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Отмена</button>
+          <button mat-raised-button color="primary" matDateRangePickerApply>Выбрать</button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+      <mat-hint>Вводите даты в формате дд.мм.гггг</mat-hint>
+
+      <mat-error *ngIf="filtersForm.controls.start_from.hasError('matStartDateInvalid')">
+        Неправильная начальная дата</mat-error>
+      <mat-error *ngIf="filtersForm.controls.start_to.hasError('matEndDateInvalid')">
+        Неправильная конечная дата</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Даты окончания бронирования</mat-label>
+      <mat-date-range-input [rangePicker]="endPicker">
+        <input matStartDate [formControlName]="'end_from'" placeholder="Окончание, с">
+        <input matEndDate [formControlName]="'start_to'" placeholder="Окончание, по">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #endPicker>
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Отмена</button>
+          <button mat-raised-button color="primary" matDateRangePickerApply>Выбрать</button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+      <mat-hint>Вводите даты в формате дд.мм.гггг</mat-hint>
+
+      <mat-error *ngIf="filtersForm.controls.end_from.hasError('matStartDateInvalid')">
+        Неправильная начальная дата</mat-error>
+      <mat-error *ngIf="filtersForm.controls.end_from.hasError('matEndDateInvalid')">
+        Неправильная конечная дата</mat-error>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Даты создания</mat-label>
+      <mat-date-range-input [rangePicker]="createPicker">
+        <input matStartDate [formControlName]="'created_from'" placeholder="Создано, с">
+        <input matEndDate [formControlName]="'created_to'" placeholder="Создано, по">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="createPicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #createPicker>
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Отмена</button>
+          <button mat-raised-button color="primary" matDateRangePickerApply>Выбрать</button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+      <mat-hint>Вводите даты в формате дд.мм.гггг</mat-hint>
+
+      <mat-error *ngIf="filtersForm.controls.created_from.hasError('matStartDateInvalid')">
+        Неправильная начальная дата</mat-error>
+      <mat-error *ngIf="filtersForm.controls.created_to.hasError('matEndDateInvalid')">
+        Неправильная конечная дата</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="col-4">
+      <mat-label>Даты обновления</mat-label>
+      <mat-date-range-input [rangePicker]="updatePicker">
+        <input matStartDate [formControlName]="'updated_from'" placeholder="Обновлено, с">
+        <input matEndDate [formControlName]="'updated_to'" placeholder="Обновлено, по">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="updatePicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #updatePicker>
+        <mat-date-range-picker-actions>
+          <button mat-button matDateRangePickerCancel>Отмена</button>
+          <button mat-raised-button color="primary" matDateRangePickerApply>Выбрать</button>
+        </mat-date-range-picker-actions>
+      </mat-date-range-picker>
+      <mat-hint>Вводите даты в формате дд.мм.гггг</mat-hint>
+
+      <mat-error *ngIf="filtersForm.controls.updated_from.invalid">
+        Неправильная начальная дата</mat-error>
+      <mat-error *ngIf="filtersForm.controls.updated_to.invalid">
+        Неправильная конечная дата</mat-error>
+    </mat-form-field>
+  </div>
+</form>
+
+<div class="mat-elevation-z2 m-3">
+  <table mat-table [dataSource]="dataSource">
+
+    <!-- Selection Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      color="primary">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      color="primary">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- Id Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>№</th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+
+    <!-- State Column -->
+    <ng-container matColumnDef="state">
+      <th mat-header-cell *matHeaderCellDef>Статус</th>
+      <td mat-cell *matCellDef="let element">
+        <div class="{{'d-flex justify-content-center state state-'+element.state}}">
+          {{element.state_display}}</div>
+      </td>
+    </ng-container>
+
+    <!-- BookingObject Column -->
+    <ng-container matColumnDef="booking_object">
+      <th mat-header-cell *matHeaderCellDef>Объект</th>
+      <td mat-cell *matCellDef="let element"> {{element.booking_object.title}} </td>
+    </ng-container>
+
+    <!-- Start Column -->
+    <ng-container matColumnDef="start">
+      <th mat-header-cell *matHeaderCellDef>Начало бронирования</th>
+      <td mat-cell *matCellDef="let element"> {{element.start | date:'dd.MM.YYYY в HH:mm' }} </td>
+    </ng-container>
+
+    <!-- End Column -->
+    <ng-container matColumnDef="end">
+      <th mat-header-cell *matHeaderCellDef>Окончание бронирования</th>
+      <td mat-cell *matCellDef="let element"> {{element.end | date:'dd.MM.YYYY в HH:mm'}} </td>
+    </ng-container>
+
+    <!-- Client Name Column -->
+    <ng-container matColumnDef="client-name">
+      <th mat-header-cell *matHeaderCellDef>Имя клиента</th>
+      <td mat-cell *matCellDef="let element"> {{ element.client.name }} </td>
+    </ng-container>
+
+    <!-- Client Phone Column -->
+    <ng-container matColumnDef="client-phone">
+      <th mat-header-cell *matHeaderCellDef>Телефон клиента</th>
+      <td mat-cell *matCellDef="let element"> {{ element.client?.phone | phone }} </td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Цена</th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    </ng-container>
+
+    <!-- Comments Column -->
+    <ng-container matColumnDef="comments">
+      <th mat-header-cell *matHeaderCellDef>Комментарии</th>
+      <td mat-cell *matCellDef="let element"> {{element.comments}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openReservationDialog(row)"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[15, 30, 50, 100]" showFirstLastButtons
+                 [length]="totalLength" (page)="handlePageChange()"></mat-paginator>
+</div>

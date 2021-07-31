@@ -1,0 +1,64 @@
+table {
+
+  td, th {
+    padding: .5rem;
+  }
+  th {
+    border-bottom-width: 3px;
+  }
+
+  .mat-column-select {
+    width: 2%;
+  }
+  .mat-column-id {
+    width: 5%;
+  }
+  .mat-column-state {
+    width: 7%;
+  }
+  .mat-column-booking_object {
+    width: 17%;
+  }
+  .mat-column-start {
+    width: 12%;
+  }
+  .mat-column-end {
+    width: 12%;
+  }
+  .mat-column-price {
+    width: 5%;
+  }
+  .mat-column-client-name {
+    width: 16%;
+  }
+  .mat-column-client-phone {
+    width: 12%;
+  }
+  .mat-column-comments {
+    width: 12%;
+    padding: 0;
+  }
+}
+
+.state {
+  border-radius: 10px;
+  padding: .4rem;
+  color: white;
+}
+
+.state-created {
+  //background-color: #ECE869;
+  background-color: #F3E037;
+}
+.state-prepayment_received {
+  background-color: #5CADFF;
+}
+.state-active {
+  background-color: #88E170;
+}
+.state-completed {
+  background-color: #F69898;
+}
+.state-cancelled {
+  background-color: #919191;
+}

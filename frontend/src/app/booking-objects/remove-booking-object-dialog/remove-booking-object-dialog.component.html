@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Удаление объекта "{{data.element.title}}"</h1>
+<div mat-dialog-content>
+  <mat-card>Внимание, объект и связанные с ним бронирования будут безвозвратно удалены</mat-card>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="confirmRemove()">Удалить</button>
+  <button mat-flat-button (click)="dialogRef.close(false)">Отмена</button>
+</div>

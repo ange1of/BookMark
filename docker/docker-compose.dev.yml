@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres'
+    restart: always
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=booking
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=s3cret
+    volumes:
+      - pgdata_dev:/var/lib/posgresql/data
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.backend
+    restart: always
+    container_name: backend
+    environment:
+      - APP_DB_HOST=postgres
+    depends_on:
+      - postgres
+
+  nginx:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata_dev: {}

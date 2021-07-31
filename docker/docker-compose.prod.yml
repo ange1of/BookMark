@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres'
+    restart: always
+    container_name: postgres
+    env_file:
+      - .env.postgres
+    volumes:
+      - pgdata:/var/lib/posgresql/data
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.backend
+    restart: always
+    container_name: backend
+    depends_on:
+      - postgres
+    env_file:
+      - .env.backend
+
+  nginx:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.prod.nginx
+    container_name: nginx
+    ports:
+      - "81:80"
+    depends_on:
+      - backend
+
+
+volumes:
+  pgdata: {}

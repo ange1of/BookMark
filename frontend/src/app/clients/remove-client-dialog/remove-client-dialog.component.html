@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Удаление клиентов</h1>
+<div mat-dialog-content>
+  <span>Удалить указанных клиентов?</span>
+  <ul class="mt-3">
+    <li *ngFor="let item of data.elements">{{item.phone | phone}} {{item.name}}</li>
+  </ul>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="confirmRemove()">Удалить</button>
+  <button mat-flat-button (click)="dialogRef.close(false)">Отмена</button>
+</div>

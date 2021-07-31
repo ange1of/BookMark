@@ -1,0 +1,50 @@
+<div class="booking-objects-actions d-flex">
+  <button mat-raised-button (click)="openBookingObjectTypeDialog()" class="my-3 mx-2">
+    <mat-icon>add</mat-icon>
+    Добавить категорию
+  </button>
+  <button mat-raised-button (click)="openBookingObjectDialog()" class="my-3 mx-2">
+    <mat-icon>add</mat-icon>
+    Добавить объект
+  </button>
+</div>
+<mat-divider></mat-divider>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    <li class="mat-tree-node">
+      <button mat-icon-button disabled></button>
+      <div class="booking-object-info" (click)="openBookingObjectDialog(node.element)">
+        <span><b>{{node.element.title}}</b></span>
+        <span>{{node.element.pricing_type_display}}</span>
+        <span>{{node.element.price}}</span>
+      </div>
+      <button mat-icon-button (click)="openDeleteBookingObjectDialog(node.element)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </li>
+  </mat-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <li>
+      <div class="mat-tree-node">
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'toggle ' + node.element.title">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        <span><b>{{node.element.title}}</b></span>
+        <button mat-icon-button (click)="openBookingObjectTypeDialog(node.element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="openDeleteBookingObjectTypeDialog(node.element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+    </li>
+  </mat-nested-tree-node>
+</mat-tree>

@@ -1,0 +1,28 @@
+table {
+
+  td, th {
+    padding: .5rem;
+  }
+  th {
+    border-bottom-width: 3px;
+  }
+
+  .mat-column-phone {
+    width: 15%;
+  }
+  .mat-column-name {
+    width: 20%;
+  }
+  .mat-column-email {
+    width: 15%;
+  }
+  .mat-column-created {
+    width: 15%;
+  }
+  .mat-column-updated {
+    width: 15%;
+  }
+  .mat-column-additional_info {
+    width: 20%;
+  }
+}

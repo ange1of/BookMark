@@ -1,0 +1,41 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [(opened)]="sidenavOpened" mode="side">
+<!--    <div *ngIf="user" class="d-flex">-->
+<!--      -->
+<!--    </div>-->
+    <mat-nav-list>
+      <mat-list-item *ngIf="user" [disabled]="false" [disableRipple]="true"
+                     class="user-block d-flex justify-content-between">
+        <mat-icon mat-list-icon>account_circle</mat-icon>
+        <b class="px-2">{{user.username}}</b>
+        <button mat-stroked-button (click)="logout()" title="Выйти">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item [routerLink]="'/calendar'">
+        <mat-icon mat-list-icon>event</mat-icon>
+        <span mat-line>Календарь</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'/reservations'">
+        <mat-icon mat-list-icon>fact_check</mat-icon>
+        <span mat-line>Бронирования</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'/booking-objects'">
+        <mat-icon mat-list-icon>maps_home_work</mat-icon>
+        <span mat-line>Объекты</span>
+      </mat-list-item>
+      <mat-list-item [routerLink]="'/clients'">
+        <mat-icon mat-list-icon>people</mat-icon>
+        <span mat-line>Клиенты</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<button mat-mini-fab color="basic" (click)="sidenav.toggle()" class="sidenav-toggle-button m-3"
+        title="{{ sidenavOpened ? 'Скрыть меню' : 'Открыть меню' }}">
+  <mat-icon>{{ sidenavOpened ? 'navigate_before' : 'navigate_next' }}</mat-icon>
+</button>

@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>{{isUpdate ? 'Редактирование' : 'Создание'}} клиента</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <div class="row">
+      <mat-form-field appearance="standard" class="col-4">
+        <mat-label>Номер телефона</mat-label>
+        <input matInput type="text" [formControlName]="'phone'" prefix="+" [showMaskTyped]="true"
+               [dropSpecialCharacters]="false" [placeholder]="'+_(___) ___-__-__'"
+               [mask]="'0(000) 000-00-00'" [required]="true">
+        <mat-error *ngIf="form.controls.phone.invalid || serverErrors?.phone">
+          {{serverErrors?.phone && serverErrors?.phone[0] || 'Это поле не может быть пустым.'}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="standard" class="col-8">
+        <mat-label>Имя</mat-label>
+        <input matInput type="text" [formControlName]="'name'" [maxLength]="100"
+               [placeholder]="'Введите имя'" [required]="true">
+        <mat-error *ngIf="form.controls.name.invalid || serverErrors?.name">
+          {{serverErrors?.name && serverErrors?.name[0] || 'Это поле не может быть пустым.'}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="standard" class="col-4">
+        <mat-label>Электронная почта</mat-label>
+        <input matInput type="email" [formControlName]="'email'"
+               [placeholder]="'Введите адрес эл.почты'">
+        <mat-error *ngIf="form.controls.email.invalid || serverErrors?.email">{{serverErrors?.email[0]}}</mat-error>
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="outline" class="col-12 mt-2">
+      <mat-label>Дополнительная информация о клиенте</mat-label>
+      <textarea matInput [matTextareaAutosize]="true" [maxLength]="300"
+                [formControlName]="'additional_info'" [rows]="5"></textarea>
+      <mat-error *ngIf="serverErrors?.additional_info">{{serverErrors?.additional_info[0]}}</mat-error>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="primary" (click)="save()">Сохранить</button>
+  <button mat-flat-button (click)="dialogRef.close(false)">Отмена</button>
+</div>

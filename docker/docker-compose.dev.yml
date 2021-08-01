@@ -2,32 +2,34 @@ version: '3'
 
 services:
   postgres:
-    image: 'postgres'
-    restart: always
-    container_name: postgres
+    image: 'postgres:alpine'
+    container_name: booking_postgres
     environment:
       - POSTGRES_DB=booking
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=s3cret
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata_dev:/var/lib/posgresql/data
+    restart: always
 
   backend:
     build:
       context: ../backend
       dockerfile: Dockerfile.backend
-    restart: always
-    container_name: backend
+    container_name: booking_backend
     environment:
       - APP_DB_HOST=postgres
     depends_on:
       - postgres
+    restart: always
 
   nginx:
     build:
       context: ../frontend
       dockerfile: Dockerfile.nginx
-    container_name: nginx
+    container_name: booking_nginx
     ports:
       - "80:80"
     depends_on:

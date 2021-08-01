@@ -2,34 +2,31 @@ version: '3'
 
 services:
   postgres:
-    image: 'postgres'
-    restart: always
-    container_name: postgres
+    image: 'postgres:alpine'
+    container_name: booking_postgres
     env_file:
       - .env.postgres
     volumes:
       - pgdata:/var/lib/posgresql/data
+    restart: always
 
   backend:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile.backend
-    restart: always
-    container_name: backend
-    depends_on:
-      - postgres
+    image: 'booking/backend'
+    container_name: booking_backend
     env_file:
       - .env.backend
+    depends_on:
+      - postgres
+    restart: always
 
   nginx:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile.prod.nginx
-    container_name: nginx
+    image: 'booking/nginx'
+    container_name: booking_nginx
     ports:
       - "81:80"
     depends_on:
       - backend
+    restart: always
 
 
 volumes:

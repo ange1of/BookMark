@@ -75,7 +75,7 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
       (res: PaginatedResponse<Reservation>) => {
         if (res.results.length) {
           this.filtersForm.patchValue({
-            booking_object_type: res.results[0].booking_object.object_type
+            booking_object_type: res.results[0].booking_objects[0].object_type
           });
         }
       }
@@ -107,7 +107,7 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
                   id: res.id,
                   start: new Date(res.start),
                   end: new Date(res.end),
-                  title: `№${res.id}: ${res.booking_object.title}` +
+                  title: `№${res.id}: ${res.booking_objects.map(x => x.title).join(', ')}` +
                     `  ${res.client.name} ${new PhonePipe().transform(res.client.phone)}` +
                     `  [${res.state_display}]`,
                   color: RESERVATION_COLORS[res.state]

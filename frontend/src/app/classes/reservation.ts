@@ -8,7 +8,7 @@ export interface Reservation {
   start: Date;
   end: Date;
   client: Client;
-  booking_object: BookingObject;
+  booking_objects: BookingObject[];
   price: number;
   comments?: string;
   created: Date;

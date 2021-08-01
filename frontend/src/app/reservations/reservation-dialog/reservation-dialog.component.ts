@@ -23,7 +23,7 @@ export class ReservationDialogComponent extends BaseComponent implements OnInit 
     state: new FormControl(null, [Validators.required]),
     start: new FormControl(null, [Validators.required]),
     end: new FormControl(null, [Validators.required]),
-    booking_object: new FormControl(null, [Validators.required]),
+    booking_objects: new FormControl(null, [Validators.required]),
     price: new FormControl(null, [Validators.required]),
     comments: new FormControl(null),
   });
@@ -72,17 +72,22 @@ export class ReservationDialogComponent extends BaseComponent implements OnInit 
     this.bookingObjectTypeControl.valueChanges.subscribe(
       (object_type: string) => {
         this.api.getBookingObjects({object_type}).subscribe(
-          (res: BookingObject[]) => this.bookingObjects = res
+          (res: BookingObject[]) => {
+            this.bookingObjects = res;
+            if (this.bookingObjectTypeControl.dirty) {
+              this.form.controls.booking_objects.setValue([]);
+            }
+          }
         );
       }
     );
 
     if (this.data.element) {
       this.form.patchValue(this.data.element);
-      this.form.controls.booking_object.setValue(this.data.element.booking_object.id);
+      this.form.controls.booking_objects.setValue(this.data.element.booking_objects.map(x => x.id));
       this.clientInfoForm.patchValue(this.data.element.client);
       this.clientInfoPanelOpened = true;
-      this.bookingObjectTypeControl.patchValue(this.data.element.booking_object.object_type);
+      this.bookingObjectTypeControl.patchValue(this.data.element.booking_objects[0]?.object_type);
     }
 
     this.clientInfoForm.controls.phone.valueChanges.pipe(debounceTime(300)).subscribe(
@@ -167,4 +172,11 @@ export class ReservationDialogComponent extends BaseComponent implements OnInit 
     );
   }
 
+  getBookingObjectDisplay(id: string): string {
+    return this.bookingObjects.find(x => x.id == id)?.title || '';
+  }
+
+  removeChip(id: string): void {
+    this.form.controls.booking_objects.setValue(this.form.controls.booking_objects.value.filter((x: string) => x !== id));
+  }
 }

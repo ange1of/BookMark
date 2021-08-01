@@ -199,10 +199,10 @@
       </td>
     </ng-container>
 
-    <!-- BookingObject Column -->
+    <!-- BookingObjects Column -->
     <ng-container matColumnDef="booking_object">
-      <th mat-header-cell *matHeaderCellDef>Объект</th>
-      <td mat-cell *matCellDef="let element"> {{element.booking_object.title}} </td>
+      <th mat-header-cell *matHeaderCellDef>Объекты</th>
+      <td mat-cell *matCellDef="let element"> {{getBookingObjectsDisplay(element.booking_objects)}} </td>
     </ng-container>
 
     <!-- Start Column -->

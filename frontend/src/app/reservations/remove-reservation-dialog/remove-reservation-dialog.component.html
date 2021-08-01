@@ -5,8 +5,8 @@
   <span>Удалить указанные бронирования?</span>
   <ul class="mt-3">
     <li *ngFor="let item of data.elements">
-      №{{item.id}}: {{item.booking_object.title}} {{'с ' + (item.start | date:'dd.MM.YYYY HH:mm:ss')}}
-      {{'по ' + (item.end | date:'dd.MM.YYYY HH:mm:ss')}}{{', ' + item.price + ' р.'}}
+      №{{item.id}}: {{getBookingObjectsDisplay(item.booking_objects)}} {{'с ' + (item.start | date:'dd.MM.YYYY HH:mm')}}
+      {{'по ' + (item.end | date:'dd.MM.YYYY HH:mm')}}{{', ' + item.price + ' р.'}}
     </li>
   </ul>
 </div>

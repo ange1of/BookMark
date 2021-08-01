@@ -1,4 +1,3 @@
-import uuid
 from django.db import models
 from .constants import RESERVATION_STATES
 from booking.mixins import TimeStampedModel
@@ -25,11 +24,10 @@ class Reservation(TimeStampedModel):
         on_delete=models.SET_NULL,
         null=True
     )
-    booking_object = models.ForeignKey(
+    booking_objects = models.ManyToManyField(
         'booking_object.BookingObject',
-        on_delete=models.CASCADE,
-        verbose_name='Объект бронирования',
-        null=True
+        verbose_name='Объекты бронирования',
+        blank=False,
     )
     price = models.FloatField(
         verbose_name='Цена',

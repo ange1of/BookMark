@@ -153,4 +153,7 @@ export class ReservationsMainPageComponent implements OnInit, AfterViewInit {
       this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
+  getBookingObjectsDisplay(booking_objects: BookingObject[]): string {
+    return booking_objects.map(x => x.title).join(', ');
+  }
 }

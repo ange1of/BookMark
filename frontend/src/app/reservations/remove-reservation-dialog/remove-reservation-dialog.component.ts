@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from '../../service/api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Reservation } from '../../classes/reservation';
+import { BookingObject } from '../../classes/booking-object';
 
 @Component({
   selector: 'app-remove-reservation-dialog',
@@ -30,5 +31,9 @@ export class RemoveReservationDialogComponent implements OnInit {
         );
         this.dialogRef.close(this.data.elements.length > 1);
       })
+  }
+
+  getBookingObjectsDisplay(booking_objects: BookingObject[]): string {
+    return booking_objects.map(x => x.title).join(', ');
   }
 }

@@ -16,10 +16,10 @@ class ReservationFilter(filters.FilterSet):
         )
 
     booking_object_type = filters.UUIDFilter(
-        field_name='booking_object__object_type',
+        method=lambda qs, fn, value: qs.filter(booking_objects__object_type=value).distinct()
     )
     booking_objects = filters.ModelMultipleChoiceFilter(
-        queryset=BookingObject.objects.all(), field_name='booking_object_id'
+        queryset=BookingObject.objects.all(), field_name='booking_objects'
     )
     start_from = filters.DateTimeFilter(
         field_name='start', lookup_expr='gte'
@@ -59,10 +59,10 @@ class ReservationRangeFilter(filters.FilterSet):
         fields = ['booking_object_type', 'booking_objects', 'date_from', 'date_to']
 
     booking_object_type = filters.UUIDFilter(
-        field_name='booking_object__object_type',
+        method=lambda qs, fn, value: qs.filter(booking_objects__object_type=value).distinct()
     )
     booking_objects = filters.ModelMultipleChoiceFilter(
-        queryset=BookingObject.objects.all(), field_name='booking_object_id'
+        queryset=BookingObject.objects.all(), field_name='booking_objects'
     )
     date_from = filters.DateTimeFilter(
         method=lambda qs, fn, value: qs.filter(Q(start__gte=value) | Q(end__gte=value))

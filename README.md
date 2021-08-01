@@ -38,22 +38,20 @@ Follow these steps:
 * Create file `.env.backend` with environment variables for backend:
 
 
-    APP_DEBUG=0
-    DJANGO_SETTINGS_MODULE=booking.settings
-    SECRET_KEY=<django_secret_key>
-    APP_DB_PASSWORD=<db_password>
-    APP_DB_HOST=<db_host>
-    ...  # Other settings (e.g. APP_DB_USER)
+    APP_DEBUG=0  
+    DJANGO_SETTINGS_MODULE=booking.settings  
+    SECRET_KEY=<django_secret_key>  
+    APP_DB_PASSWORD=<db_password>  
+    APP_DB_HOST=<db_host>  
+    ...  # Other settings (e.g. APP_DB_USER)  
 
 
-* Create file `.env.postgres` with environment variables for postgres:
+* Create file `.env.postgres` with environment variables for postgres (must match with the backend settings):
 
 
-    # Must match with the backend settings
-    POSTGRES_DB=<postgres_db>
-    POSTGRES_USER=<postgres_user>
-    POSTGRES_PASSWORD=<postgres_password>
-
+    POSTGRES_DB=<postgres_db>  
+    POSTGRES_USER=<postgres_user>  
+    POSTGRES_PASSWORD=<postgres_password>  
 
 
 * Run `make all` from project root.

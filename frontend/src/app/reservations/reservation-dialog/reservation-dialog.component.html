@@ -20,7 +20,7 @@
       <mat-error *ngIf="bookingObjectTypeControl.invalid">{{'Это поле не может быть пустым.'}}</mat-error>
     </mat-form-field>
     <mat-form-field appearance="standard" class="col-6" [formGroup]="form">
-      <mat-label>Объект</mat-label>
+      <mat-label>Объекты</mat-label>
       <mat-select [formControlName]="'booking_objects'" [required]="true" multiple>
         <mat-option *ngFor="let elem of bookingObjects" value="{{elem.id}}">
           <b>{{elem.title}}</b> ({{elem.pricing_type_display}} {{elem.price}}р.)
@@ -59,18 +59,26 @@
 <!--        </mat-error>-->
 <!--      </mat-form-field>-->
       <mat-form-field appearance="standard" class="col-6">
+        <mat-label>Начало бронирования</mat-label>
         <input matInput [ngxMatDatetimePicker]="startPicker" [formControlName]="'start'"
-               placeholder="Начало бронирования" [required]="true">
+               placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required>
         <mat-datepicker-toggle matSuffix [for]="$any(startPicker)"></mat-datepicker-toggle>
         <ngx-mat-datetime-picker #startPicker [showSpinners]="true"
                                  [showSeconds]="false"></ngx-mat-datetime-picker>
+        <mat-error *ngIf="form.controls.start.invalid || formErrors?.start">
+          {{formErrors?.start && formErrors?.start[0] || 'Введите правильную дату.'}}
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="standard" class="col-6">
+        <mat-label>Окончание бронирования</mat-label>
         <input matInput [ngxMatDatetimePicker]="endPicker" [formControlName]="'end'"
-               placeholder="Окончание бронирования" [required]="true">
+               placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required>
         <mat-datepicker-toggle matSuffix [for]="$any(endPicker)"></mat-datepicker-toggle>
         <ngx-mat-datetime-picker #endPicker [showSpinners]="true"
                                  [showSeconds]="false"></ngx-mat-datetime-picker>
+        <mat-error *ngIf="form.controls.end.invalid || formErrors?.end">
+          {{formErrors?.end && formErrors?.end[0] || 'Введите правильную дату.'}}
+        </mat-error>
       </mat-form-field>
     </div>
     <div class="row">

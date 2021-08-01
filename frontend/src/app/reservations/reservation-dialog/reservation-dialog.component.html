@@ -21,16 +21,23 @@
     </mat-form-field>
     <mat-form-field appearance="standard" class="col-6" [formGroup]="form">
       <mat-label>Объект</mat-label>
-      <mat-select [formControlName]="'booking_object'" [required]="true">
+      <mat-select [formControlName]="'booking_objects'" [required]="true" multiple>
         <mat-option *ngFor="let elem of bookingObjects" value="{{elem.id}}">
           <b>{{elem.title}}</b> ({{elem.pricing_type_display}} {{elem.price}}р.)
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="form.controls.booking_object.invalid || formErrors?.booking_object">
-        {{formErrors?.booking_object && formErrors?.booking_object[0] || 'Это поле не может быть пустым.'}}
+      <mat-error *ngIf="form.controls.booking_objects.invalid || formErrors?.booking_objects">
+        {{formErrors?.booking_objects && formErrors?.booking_objects[0] || 'Этот список не может быть пустым.'}}
       </mat-error>
     </mat-form-field>
   </div>
+  <mat-chip-list class="row">
+    <mat-chip *ngFor="let id of form.controls.booking_objects.value" [selectable]="false"
+             [removable]="true" (removed)="removeChip(id)">
+      {{getBookingObjectDisplay(id)}}
+      <mat-icon matChipRemove>cancel</mat-icon>
+    </mat-chip>
+  </mat-chip-list>
   <mat-divider class="mt-1 mb-2"></mat-divider>
 
   <form [formGroup]="form">

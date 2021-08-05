@@ -16,19 +16,19 @@
           (click)="this.openRemoveClientsDialog()">Удалить</button>
 </div>
 <mat-divider></mat-divider>
-<form *ngIf="showFilters" class="m-3 col-8" [formGroup]="filtersForm">
+<form *ngIf="showFilters" class="container-fluid" [formGroup]="filtersForm">
   <div class="row">
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-md-4 col-lg-3">
       <mat-label>Номер телефона</mat-label>
       <input matInput type="text" [formControlName]="'phone'">
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-8">
+    <mat-form-field appearance="standard" class="col-12 col-md-8 col-lg-5">
       <mat-label>Имя</mat-label>
       <input matInput type="text" [formControlName]="'name'">
     </mat-form-field>
   </div>
   <div class="row">
-    <mat-form-field appearance="standard" class="col-6">
+    <mat-form-field appearance="standard" class="col-12 col-md-6 col-lg-4">
       <mat-label>Даты создания</mat-label>
       <mat-date-range-input [rangePicker]="createPicker">
         <input matStartDate [formControlName]="'created_from'" placeholder="Создан, с">
@@ -48,7 +48,7 @@
       <mat-error *ngIf="filtersForm.controls.created_to.hasError('matEndDateInvalid')">
         Неправильная конечная дата</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-6">
+    <mat-form-field appearance="standard" class="col-12 col-md-6 col-lg-4">
       <mat-label>Даты обновления</mat-label>
       <mat-date-range-input [rangePicker]="updatePicker">
         <input matStartDate [formControlName]="'updated_from'" placeholder="Обновлен, с">
@@ -71,7 +71,7 @@
   </div>
 </form>
 
-<div class="mat-elevation-z2 m-3">
+<div class="mat-elevation-z2 m-2 table-responsive">
   <table mat-table [dataSource]="dataSource">
 
     <!-- Selection Column -->

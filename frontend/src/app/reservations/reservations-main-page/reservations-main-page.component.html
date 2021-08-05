@@ -1,4 +1,4 @@
-<div class="d-flex">
+<div class="d-flex actions">
   <button mat-raised-button (click)="toggleFilters()" class="my-3 mx-2"
           title="{{(showFilters ? 'Скрыть' : 'Открыть') + ' фильтры'}}">
     <mat-icon>filter_alt</mat-icon>
@@ -8,7 +8,8 @@
           class="my-3 mx-2" title="Очистить фильтры" color="warn">
     <mat-icon>backspace</mat-icon>
   </button>
-  <button mat-raised-button (click)="openReservationDialog()" class="my-3 mx-2">
+  <button mat-raised-button (click)="openReservationDialog()"
+          class="my-3 mx-2 create-reservation-button">
     <mat-icon>add</mat-icon>Создать бронирование
   </button>
   <button *ngIf="!selection.isEmpty()" mat-raised-button
@@ -16,9 +17,9 @@
           (click)="this.openRemoveReservationsDialog()">Удалить</button>
 </div>
 <mat-divider></mat-divider>
-<form *ngIf="showFilters" class="p-3 col-12" [formGroup]="filtersForm">
+<form *ngIf="showFilters" class="p-3 container-fluid" [formGroup]="filtersForm">
   <div class="row">
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-lg-4">
       <mat-label>Статус бронирования</mat-label>
       <mat-select [formControlName]="'state'">
         <mat-option *ngFor="let elem of reservationStates" value="{{elem.value}}">
@@ -30,7 +31,7 @@
         <mat-icon color="primary">clear</mat-icon>
       </button>
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-lg-4">
       <mat-label>Тип объекта</mat-label>
       <mat-select [formControlName]="'booking_object_type'">
         <mat-option *ngFor="let elem of bookingObjectTypes" value="{{elem.value}}">
@@ -44,7 +45,7 @@
         <mat-icon color="primary">clear</mat-icon>
       </button>
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-lg-4">
       <mat-label>Объекты</mat-label>
       <mat-select [formControlName]="'booking_objects'" multiple>
         <mat-option *ngFor="let elem of bookingObjects" value="{{elem.id}}">
@@ -63,21 +64,21 @@
     </mat-form-field>
   </div>
   <div class="row">
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-lg-4">
       <mat-label>№ бронирования</mat-label>
       <input matInput type="text" [formControlName]="'id'">
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-lg-4">
       <mat-label>Номер телефона клиента</mat-label>
       <input matInput type="text" [formControlName]="'client_phone'">
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-lg-4">
       <mat-label>Имя клиента</mat-label>
       <input matInput type="text" [formControlName]="'client_name'">
     </mat-form-field>
   </div>
   <div class="row">
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-lg-4">
       <mat-label>Даты начала бронирования</mat-label>
       <mat-date-range-input [rangePicker]="startPicker">
         <input matStartDate [formControlName]="'start_from'" placeholder="Начало, с">
@@ -98,7 +99,7 @@
         Неправильная конечная дата</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-lg-4">
       <mat-label>Даты окончания бронирования</mat-label>
       <mat-date-range-input [rangePicker]="endPicker">
         <input matStartDate [formControlName]="'end_from'" placeholder="Окончание, с">
@@ -120,7 +121,7 @@
     </mat-form-field>
   </div>
   <div class="row">
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-4">
       <mat-label>Даты создания</mat-label>
       <mat-date-range-input [rangePicker]="createPicker">
         <input matStartDate [formControlName]="'created_from'" placeholder="Создано, с">
@@ -140,7 +141,7 @@
       <mat-error *ngIf="filtersForm.controls.created_to.hasError('matEndDateInvalid')">
         Неправильная конечная дата</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-4">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6 col-4">
       <mat-label>Даты обновления</mat-label>
       <mat-date-range-input [rangePicker]="updatePicker">
         <input matStartDate [formControlName]="'updated_from'" placeholder="Обновлено, с">
@@ -163,7 +164,7 @@
   </div>
 </form>
 
-<div class="mat-elevation-z2 m-3">
+<div class="mat-elevation-z2 m-2 table-responsive">
   <table mat-table [dataSource]="dataSource">
 
     <!-- Selection Column -->

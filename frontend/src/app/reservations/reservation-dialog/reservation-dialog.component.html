@@ -63,7 +63,7 @@
         <input matInput [ngxMatDatetimePicker]="startPicker" [formControlName]="'start'"
                placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required>
         <mat-datepicker-toggle matSuffix [for]="$any(startPicker)"></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker #startPicker [showSpinners]="true"
+        <ngx-mat-datetime-picker #startPicker [showSpinners]="true" [defaultTime]="[14, 0, 0]"
                                  [showSeconds]="false"></ngx-mat-datetime-picker>
         <mat-error *ngIf="form.controls.start.invalid || formErrors?.start">
           {{formErrors?.start && formErrors?.start[0] || 'Введите правильную дату.'}}
@@ -74,7 +74,7 @@
         <input matInput [ngxMatDatetimePicker]="endPicker" [formControlName]="'end'"
                placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required>
         <mat-datepicker-toggle matSuffix [for]="$any(endPicker)"></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker #endPicker [showSpinners]="true"
+        <ngx-mat-datetime-picker #endPicker [showSpinners]="true" [defaultTime]="[12, 0, 0]"
                                  [showSeconds]="false"></ngx-mat-datetime-picker>
         <mat-error *ngIf="form.controls.end.invalid || formErrors?.end">
           {{formErrors?.end && formErrors?.end[0] || 'Введите правильную дату.'}}

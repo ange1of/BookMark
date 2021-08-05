@@ -182,7 +182,7 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
 
     this.api.getReservation(+id).subscribe((res: Reservation) => {
       const dialogRef = this.dialog.open(ReservationDialogComponent, {
-        width: '80%', data: {element: res}
+        width: '80%', maxHeight: '90vh', data: {element: res}
       });
       dialogRef.afterClosed().subscribe((reload: boolean) => {
         if (reload) { this.handleViewDateChange() }
@@ -192,7 +192,7 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
 
   openCreateReservationDialog(): void {
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
-      width: '80%', data: {}
+      width: '80%', maxHeight: '90vh', data: {}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.handleViewDateChange() }

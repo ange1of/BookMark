@@ -121,7 +121,7 @@ export class ReservationsMainPageComponent implements OnInit, AfterViewInit {
 
   openReservationDialog(reservation?: Reservation): void {
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
-      width: '80%', data: {element: reservation}
+      width: '80%', maxHeight: '90vh', data: {element: reservation}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.loadReservations(); }
@@ -130,7 +130,7 @@ export class ReservationsMainPageComponent implements OnInit, AfterViewInit {
 
   openRemoveReservationsDialog(): void {
     const dialogRef = this.dialog.open(RemoveReservationDialogComponent, {
-      width: '70%', data: {elements: this.selection.selected}
+      width: '70%', maxHeight: '90vh', data: {elements: this.selection.selected}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.loadReservations(); }

@@ -12,14 +12,14 @@
       <i>Обновлено: {{data.element?.updated | date:'dd.MM.YYYY в HH:mm'}}</i></span>
   </div>
   <div class="row">
-    <mat-form-field appearance="standard" class="col-6">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6">
       <mat-label>Тип объекта</mat-label>
       <mat-select [formControl]="bookingObjectTypeControl" [required]="true">
         <mat-option *ngFor="let elem of bookingObjectTypes" value="{{elem.value}}">{{elem.title}}</mat-option>
       </mat-select>
       <mat-error *ngIf="bookingObjectTypeControl.invalid">{{'Это поле не может быть пустым.'}}</mat-error>
     </mat-form-field>
-    <mat-form-field appearance="standard" class="col-6" [formGroup]="form">
+    <mat-form-field appearance="standard" class="col-12 col-sm-6" [formGroup]="form">
       <mat-label>Объекты</mat-label>
       <mat-select [formControlName]="'booking_objects'" [required]="true" multiple>
         <mat-option *ngFor="let elem of bookingObjects" value="{{elem.id}}">
@@ -42,26 +42,10 @@
 
   <form [formGroup]="form">
     <div class="row">
-<!--      <mat-form-field appearance="standard" class="col-6">-->
-<!--        <mat-label>Начало бронирования</mat-label>-->
-<!--        <input matInput type="datetime-local" [formControlName]="'start'"-->
-<!--               [placeholder]="'Начало бронирования'" [required]="true">-->
-<!--        <mat-error *ngIf="form.controls.start.invalid || formErrors?.start">-->
-<!--          {{formErrors?.start && formErrors?.start[0] || 'Это поле не может быть пустым.'}}-->
-<!--        </mat-error>-->
-<!--      </mat-form-field>-->
-<!--      <mat-form-field appearance="standard" class="col-6">-->
-<!--        <mat-label>Окончание бронирования</mat-label>-->
-<!--        <input matInput type="datetime-local" [formControlName]="'end'"-->
-<!--               [placeholder]="'Окончание бронирования'" [required]="true">-->
-<!--        <mat-error *ngIf="form.controls.end.invalid || formErrors?.end">-->
-<!--          {{formErrors?.end && formErrors?.end[0] || 'Это поле не может быть пустым.'}}-->
-<!--        </mat-error>-->
-<!--      </mat-form-field>-->
-      <mat-form-field appearance="standard" class="col-6">
+      <mat-form-field appearance="standard" class="col-12 col-sm-6">
         <mat-label>Начало бронирования</mat-label>
         <input matInput [ngxMatDatetimePicker]="startPicker" [formControlName]="'start'"
-               placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required>
+               placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required [max]="form.controls.end.value">
         <mat-datepicker-toggle matSuffix [for]="$any(startPicker)"></mat-datepicker-toggle>
         <ngx-mat-datetime-picker #startPicker [showSpinners]="true" [defaultTime]="[14, 0, 0]"
                                  [showSeconds]="false"></ngx-mat-datetime-picker>
@@ -69,10 +53,10 @@
           {{formErrors?.start && formErrors?.start[0] || 'Введите правильную дату.'}}
         </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="standard" class="col-6">
+      <mat-form-field appearance="standard" class="col-12 col-sm-6">
         <mat-label>Окончание бронирования</mat-label>
         <input matInput [ngxMatDatetimePicker]="endPicker" [formControlName]="'end'"
-               placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required>
+               placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" required [min]="form.controls.start.value">
         <mat-datepicker-toggle matSuffix [for]="$any(endPicker)"></mat-datepicker-toggle>
         <ngx-mat-datetime-picker #endPicker [showSpinners]="true" [defaultTime]="[12, 0, 0]"
                                  [showSeconds]="false"></ngx-mat-datetime-picker>
@@ -92,7 +76,7 @@
         </mat-error>
       </mat-form-field>
       <div class="col-6">
-        <mat-form-field appearance="standard" class="col-6">
+        <mat-form-field appearance="standard" class="col-12 col-sm-6">
           <mat-label>Суммарная стоимость</mat-label>
           <input matInput type='number' [formControlName]="'price'"
                  [placeholder]="'Введите сумму'" [required]="true">
@@ -125,7 +109,7 @@
   <div *ngIf="clientInfoPanelOpened">
     <form [formGroup]="clientInfoForm">
       <div class="row d-flex align-items-center">
-        <mat-form-field appearance="standard" class="col-4">
+        <mat-form-field appearance="standard" class="col-6">
           <mat-label>Номер телефона</mat-label>
           <input matInput type="text" [formControlName]="'phone'" prefix="+" [showMaskTyped]="true"
                  [dropSpecialCharacters]="false" [placeholder]="'+_(___) ___-__-__'"
@@ -134,7 +118,7 @@
             {{clientInfoErrors?.phone && clientInfoErrors?.phone[0] || 'Это поле не может быть пустым.'}}
           </mat-error>
         </mat-form-field>
-        <div class="col-8">
+        <div class="col-6">
           <mat-spinner *ngIf="isClientSearchProcessing" [diameter]="20"></mat-spinner>
           <span *ngIf="clientSearchStatus === 'found' && !isClientSearchProcessing" class="text-success">
             Клиент найден в базе</span>
@@ -145,7 +129,7 @@
         </div>
       </div>
       <div class="row">
-        <mat-form-field appearance="standard" class="col-8">
+        <mat-form-field appearance="standard" class="col-12 col-sm-8">
           <mat-label>Имя</mat-label>
           <input matInput type="text" [formControlName]="'name'"
                  [placeholder]="'Введите имя'" [required]="true" [maxLength]="100">
@@ -153,7 +137,7 @@
             {{clientInfoErrors?.name && clientInfoErrors?.name[0] || 'Это поле не может быть пустым.'}}
           </mat-error>
         </mat-form-field>
-        <mat-form-field appearance="standard" class="col-4">
+        <mat-form-field appearance="standard" class="col-12 col-sm-4">
           <mat-label>Электронная почта</mat-label>
           <input matInput type="email" [formControlName]="'email'"
                  [placeholder]="'Введите адрес эл.почты'">

@@ -2,39 +2,45 @@
   {{isUpdate ? 'Редактирование' : 'Создание'}} объекта{{isUpdate ? ' "' + data.element?.title + '"' : '' }}
 </h1>
 <div mat-dialog-content>
-  <form [formGroup]="form">
-    <mat-form-field appearance="standard" class="w-75">
-      <mat-label>Название</mat-label>
-      <input matInput [formControlName]="'title'" [maxLength]="80" required>
-      <mat-error *ngIf="form.controls.title.invalid || serverErrors?.title">
-        {{serverErrors?.title && serverErrors?.title[0] || 'Это поле не может быть пустым.'}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="standard" class="w-75">
-      <mat-label>Тип объекта</mat-label>
-      <mat-select [formControlName]="'object_type'" [required]="true">
-        <mat-option *ngFor="let elem of bookingObjectTypes" value="{{elem.value}}">{{elem.title}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="form.controls.object_type.invalid || serverErrors?.object_type">
-        {{serverErrors?.object_type && serverErrors?.object_type[0] || 'Это поле не может быть пустым.'}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="standard" class="w-75">
-      <mat-label>Тип оплаты</mat-label>
-      <mat-select [formControlName]="'pricing_type'" [required]="true">
-        <mat-option *ngFor="let elem of pricingTypes" value="{{elem.value}}">{{elem.title}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="form.controls.pricing_type.invalid || serverErrors?.pricing_type">
-        {{serverErrors?.pricing_type && serverErrors?.pricing_type[0] || 'Это поле не может быть пустым.'}}
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field appearance="standard" class="w-75">
-      <mat-label>Цена</mat-label>
-      <input matInput [formControlName]="'price'" required>
-      <mat-error *ngIf="form.controls.price.invalid || serverErrors?.price">
-        {{serverErrors?.price && serverErrors?.price[0] || 'Это поле не может быть пустым.'}}
-      </mat-error>
-    </mat-form-field>
+  <form [formGroup]="form" class="container-fluid">
+    <div class="row">
+      <mat-form-field appearance="standard" class="col">
+        <mat-label>Название</mat-label>
+        <input matInput [formControlName]="'title'" [maxLength]="80" required>
+        <mat-error *ngIf="form.controls.title.invalid || serverErrors?.title">
+          {{serverErrors?.title && serverErrors?.title[0] || 'Это поле не может быть пустым.'}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="standard" class="col">
+        <mat-label>Тип объекта</mat-label>
+        <mat-select [formControlName]="'object_type'" [required]="true">
+          <mat-option *ngFor="let elem of bookingObjectTypes" value="{{elem.value}}">{{elem.title}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls.object_type.invalid || serverErrors?.object_type">
+          {{serverErrors?.object_type && serverErrors?.object_type[0] || 'Это поле не может быть пустым.'}}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="standard" class="col-12 col-sm-6">
+        <mat-label>Тип оплаты</mat-label>
+        <mat-select [formControlName]="'pricing_type'" [required]="true">
+          <mat-option *ngFor="let elem of pricingTypes" value="{{elem.value}}">{{elem.title}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls.pricing_type.invalid || serverErrors?.pricing_type">
+          {{serverErrors?.pricing_type && serverErrors?.pricing_type[0] || 'Это поле не может быть пустым.'}}
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="standard" class="col-12 col-sm-6">
+        <mat-label>Цена</mat-label>
+        <input matInput [formControlName]="'price'" required>
+        <mat-error *ngIf="form.controls.price.invalid || serverErrors?.price">
+          {{serverErrors?.price && serverErrors?.price[0] || 'Это поле не может быть пустым.'}}
+        </mat-error>
+      </mat-form-field>
+    </div>
   </form>
 </div>
 <div mat-dialog-actions>

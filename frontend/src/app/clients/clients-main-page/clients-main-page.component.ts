@@ -88,7 +88,7 @@ export class ClientsMainPageComponent implements OnInit, AfterViewInit {
 
   openCreateClientDialog(client?: Client): void {
     const dialogRef = this.dialog.open(ClientDialogComponent, {
-      width: '70%', maxHeight: '90vh', data: {element: client}
+      minWidth: '70%', maxWidth: '80%', maxHeight: '90vh', data: {element: client}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.loadClients(); }
@@ -97,7 +97,7 @@ export class ClientsMainPageComponent implements OnInit, AfterViewInit {
 
   openRemoveClientsDialog(): void {
     const dialogRef = this.dialog.open(RemoveClientDialogComponent, {
-      width: '70%', maxHeight: '90vh', data: {elements: this.selection.selected}
+      minWidth: '70%', maxWidth: '80%', maxHeight: '90vh', data: {elements: this.selection.selected}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) {

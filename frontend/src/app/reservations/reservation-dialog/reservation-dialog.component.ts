@@ -141,7 +141,7 @@ export class ReservationDialogComponent extends BaseComponent implements OnInit 
   openRemoveReservationDialog(): void {
     if (!this.data.element) { return; }
     const dialogRef = this.dialog.open(RemoveReservationDialogComponent, {
-      width: '70%', maxHeight: '90vh', data: {elements: [this.data.element]}
+      minWidth: '60%', maxWidth: '80%', maxHeight: '90vh', data: {elements: [this.data.element]}
     });
     dialogRef.afterClosed().subscribe((removed: boolean) => {
       if (removed) { this.dialogRef.close(true); }

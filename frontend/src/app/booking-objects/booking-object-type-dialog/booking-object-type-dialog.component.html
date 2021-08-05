@@ -2,13 +2,15 @@
   {{isUpdate ? 'Редактирование' : 'Создание'}} категории{{isUpdate ? ' "' + data.element?.title + '"' : '' }}
 </h1>
 <div mat-dialog-content>
-  <mat-form-field appearance="standard" [formGroup]="form" class="w-75">
-    <mat-label>Название</mat-label>
-    <input matInput [formControlName]="'title'" [maxLength]="80" required>
-    <mat-error *ngIf="form.controls.title.invalid || serverErrors?.title">
-      {{serverErrors?.title && serverErrors?.title[0] || 'Это поле не может быть пустым.'}}
-    </mat-error>
-  </mat-form-field>
+  <div class="row">
+    <mat-form-field appearance="standard" [formGroup]="form" class="col">
+      <mat-label>Название</mat-label>
+      <input matInput [formControlName]="'title'" [maxLength]="80" required>
+      <mat-error *ngIf="form.controls.title.invalid || serverErrors?.title">
+        {{serverErrors?.title && serverErrors?.title[0] || 'Это поле не может быть пустым.'}}
+      </mat-error>
+    </mat-form-field>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-flat-button color="primary" (click)="save()">Сохранить</button>

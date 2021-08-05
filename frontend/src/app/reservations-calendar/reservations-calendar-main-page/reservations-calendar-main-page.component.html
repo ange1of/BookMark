@@ -23,45 +23,47 @@
 </div>
 <mat-divider></mat-divider>
 
-<div class="col-12 d-flex text-center mt-3 mb-3">
-  <div class="col-4">
-    <div class="btn-group">
-      <button mat-stroked-button color="primary"
-              class="btn" mwlCalendarPreviousView
-              [view]="view" [(viewDate)]="viewDate"
-              (viewDateChange)="handleViewDateChange()">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <button mat-stroked-button color="basic"
-              class="btn" mwlCalendarToday [(viewDate)]="viewDate"
-              (viewDateChange)="handleViewDateChange()">
-        Сегодня
-      </button>
-      <button mat-stroked-button color="primary"
-              class="btn" mwlCalendarNextView
-              [view]="view" [(viewDate)]="viewDate"
-              (viewDateChange)="handleViewDateChange()">
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
+<div class="container-fluid">
+  <div class="row d-flex text-center mt-3 mb-3">
+    <div class="col-6 col-sm-4">
+      <div class="btn-group">
+        <button mat-stroked-button color="primary"
+                class="btn" mwlCalendarPreviousView
+                [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="handleViewDateChange()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <button mat-stroked-button color="basic"
+                class="btn" mwlCalendarToday [(viewDate)]="viewDate"
+                (viewDateChange)="handleViewDateChange()">
+          Сегодня
+        </button>
+        <button mat-stroked-button color="primary"
+                class="btn" mwlCalendarNextView
+                [view]="view" [(viewDate)]="viewDate"
+                (viewDateChange)="handleViewDateChange()">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="col-4">
-    <h2>{{ viewDate | calendarDate:(view + 'ViewTitle'):'ru':1 }}</h2>
-  </div>
-  <div class="col-4">
-    <div class="btn-group">
-      <button mat-stroked-button color="{{view === CalendarView.Month ? 'primary': 'basic' }}"
-              class="btn" (click)="setView(CalendarView.Month)">
-        Месяц
-      </button>
-      <button mat-stroked-button color="{{view === CalendarView.Week ? 'primary': 'basic' }}"
-              class="btn" (click)="setView(CalendarView.Week)">
-        Неделя
-      </button>
-      <button mat-stroked-button color="{{view === CalendarView.Day ? 'primary': 'basic' }}"
-              class="btn" (click)="setView(CalendarView.Day)">
-        День
-      </button>
+    <div class="col-6 col-sm-4">
+      <h2>{{ viewDate | calendarDate:(view + 'ViewTitle'):'ru':1 }}</h2>
+    </div>
+    <div class="col-6 col-sm-4">
+      <div class="btn-group">
+        <button mat-stroked-button color="{{view === CalendarView.Month ? 'primary': 'basic' }}"
+                class="btn" (click)="setView(CalendarView.Month)">
+          Месяц
+        </button>
+        <button mat-stroked-button color="{{view === CalendarView.Week ? 'primary': 'basic' }}"
+                class="btn" (click)="setView(CalendarView.Week)">
+          Неделя
+        </button>
+        <button mat-stroked-button color="{{view === CalendarView.Day ? 'primary': 'basic' }}"
+                class="btn" (click)="setView(CalendarView.Day)">
+          День
+        </button>
+      </div>
     </div>
   </div>
 </div>

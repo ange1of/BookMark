@@ -4,4 +4,34 @@
 
 .add-reservation-button {
   height: fit-content;
+  vertical-align: middle;
+}
+
+.cal-event {
+  border-radius: 5px;
+  min-width: 20px;
+  min-height: 20px;
+  background-color: transparent;
+}
+
+.bg-grey {
+  background-color: #aaaaaa;
+}
+
+.cal-event-empty {
+  border: 1px solid grey;
+}
+
+.marker-left {
+  border-left: 2px solid white;
+}
+
+.rnd {
+  border-radius: 5px;
+}
+.rnd-left {
+  border-radius: 5px 0 0 5px;
+}
+.rnd-right {
+  border-radius: 0 5px 5px 0;
 }

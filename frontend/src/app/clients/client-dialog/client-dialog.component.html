@@ -2,7 +2,7 @@
 <div mat-dialog-content>
   <form [formGroup]="form">
     <div class="row">
-      <mat-form-field appearance="standard" class="col-4">
+      <mat-form-field appearance="standard" class="col-12 col-md-4">
         <mat-label>Номер телефона</mat-label>
         <input matInput type="text" [formControlName]="'phone'" prefix="+" [showMaskTyped]="true"
                [dropSpecialCharacters]="false" [placeholder]="'+_(___) ___-__-__'"
@@ -11,7 +11,7 @@
           {{serverErrors?.phone && serverErrors?.phone[0] || 'Это поле не может быть пустым.'}}
         </mat-error>
       </mat-form-field>
-      <mat-form-field appearance="standard" class="col-8">
+      <mat-form-field appearance="standard" class="col-12 col-md-8">
         <mat-label>Имя</mat-label>
         <input matInput type="text" [formControlName]="'name'" [maxLength]="100"
                [placeholder]="'Введите имя'" [required]="true">
@@ -21,7 +21,7 @@
       </mat-form-field>
     </div>
     <div class="row">
-      <mat-form-field appearance="standard" class="col-4">
+      <mat-form-field appearance="standard" class="col-12 col-md-4">
         <mat-label>Электронная почта</mat-label>
         <input matInput type="email" [formControlName]="'email'"
                [placeholder]="'Введите адрес эл.почты'">

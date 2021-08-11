@@ -62,3 +62,13 @@ table {
 .state-cancelled {
   background-color: #919191;
 }
+
+.create-reservation-button {
+  white-space: break-spaces;
+}
+
+.actions {
+  button {
+    height: fit-content;
+  }
+}

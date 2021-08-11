@@ -81,7 +81,7 @@ export class BookingObjectsMainPageComponent implements OnInit {
 
   openBookingObjectDialog(bookingObject?: BookingObject): void {
     const dialogRef = this.dialog.open(BookingObjectDialogComponent, {
-      width: '70%', data: {element: bookingObject}
+      minWidth: '40%', maxWidth: '80%', maxHeight: '90vh', data: {element: bookingObject}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.reloadTree() }
@@ -90,7 +90,7 @@ export class BookingObjectsMainPageComponent implements OnInit {
 
   openDeleteBookingObjectDialog(bookingObject: BookingObject): void {
     const dialogRef = this.dialog.open(RemoveBookingObjectDialogComponent, {
-      width: '40%', data: {element: bookingObject}
+      minWidth: '40%', maxWidth: '80%', maxHeight: '90vh', data: {element: bookingObject}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.reloadTree() }
@@ -99,7 +99,7 @@ export class BookingObjectsMainPageComponent implements OnInit {
 
   openBookingObjectTypeDialog(bookingObjectType?: BookingObjectType): void {
     const dialogRef = this.dialog.open(BookingObjectTypeDialogComponent, {
-      width: '70%', data: {element: bookingObjectType}
+      minWidth: '40%', maxWidth: '80%', maxHeight: '90vh', data: {element: bookingObjectType}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.reloadTree() }
@@ -108,7 +108,7 @@ export class BookingObjectsMainPageComponent implements OnInit {
 
   openDeleteBookingObjectTypeDialog(bookingObjectType: BookingObjectType): void {
     const dialogRef = this.dialog.open(RemoveBookingObjectTypeDialogComponent, {
-      width: '40%', data: {element: bookingObjectType}
+      minWidth: '40%', maxWidth: '80%', maxHeight: '90vh', data: {element: bookingObjectType}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.reloadTree() }

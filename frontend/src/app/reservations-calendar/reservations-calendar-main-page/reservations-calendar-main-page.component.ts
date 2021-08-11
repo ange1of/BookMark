@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CalendarEvent, CalendarView, } from 'angular-calendar';
+import { CalendarEvent as BaseCalendarEvent, CalendarView, } from 'angular-calendar';
 import {
   endOfDay, endOfMonth, endOfWeek, isSameDay, isSameMonth,
   startOfDay, startOfMonth, startOfWeek,
@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {
   ReservationDialogComponent
 } from '../../reservations/reservation-dialog/reservation-dialog.component';
+import * as moment from 'moment';
 
 const RESERVATION_COLORS: any = {
   created: { primary: '#F3E037', secondary: '#FFFCB3' },
@@ -25,6 +26,17 @@ const RESERVATION_COLORS: any = {
   completed: { primary: '#F69898', secondary: '#FAE3E3' },
   cancelled: { primary: '#919191', secondary: '#E3E3E3' }
 };
+
+interface CalendarEvent extends BaseCalendarEvent {
+  reservation: Reservation;
+  shortTitle: string;
+}
+
+interface DayEvent {
+  obj: BookingObject;
+  events?: CalendarEvent[];
+  count?: number;
+}
 
 @Component({
   selector: 'app-reservations-calendar-main-page',
@@ -55,6 +67,7 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
   refresh: Subject<any> = new Subject();
   activeDayIsOpen: boolean = false;
   events: CalendarEvent[] = [];
+  dayEventsMap: Map<string, DayEvent[]> = new Map<string, DayEvent[]>();
 
   constructor(
     public api: ApiService,
@@ -101,16 +114,21 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
 
         this.api.getReservationsRange(filters).subscribe(
           (reservations: Reservation[]) => {
-            this.events = reservations.map(
+            this.dayEventsMap.clear();
+            this.events = reservations.filter(x => x.state !== 'cancelled').map(
               (res: Reservation) => {
+                const titleStart = `№${res.id}: ${res.booking_objects.map(x => x.title).sort().join(', ')}`;
+                const titleDates = `  |  ${moment(res.start).format('DD.MM HH:mm')} - ${moment(res.end).format('DD.MM HH:mm')}`;
+                const titleState = `  |  [${res.state_display}]`;
                 return {
                   id: res.id,
                   start: new Date(res.start),
                   end: new Date(res.end),
-                  title: `№${res.id}: ${res.booking_objects.map(x => x.title).join(', ')}` +
-                    `  ${res.client.name} ${new PhonePipe().transform(res.client.phone)}` +
-                    `  [${res.state_display}]`,
-                  color: RESERVATION_COLORS[res.state]
+                  title: titleStart + titleDates +
+                    `  |  ${res.client.name} ${new PhonePipe().transform(res.client.phone)}` + titleState,
+                  shortTitle: titleStart + titleDates + titleState,
+                  color: RESERVATION_COLORS[res.state],
+                  reservation: res
                 };
               }
             )
@@ -124,7 +142,7 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
     );
   }
 
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({ date, events }: { date: Date; events: BaseCalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       this.activeDayIsOpen =
         !((isSameDay(this.viewDate, date) && this.activeDayIsOpen) || events.length === 0);
@@ -164,7 +182,7 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
 
     this.api.getReservation(+id).subscribe((res: Reservation) => {
       const dialogRef = this.dialog.open(ReservationDialogComponent, {
-        width: '80%', data: {element: res}
+        width: '80%', maxHeight: '90vh', data: {element: res}
       });
       dialogRef.afterClosed().subscribe((reload: boolean) => {
         if (reload) { this.handleViewDateChange() }
@@ -174,10 +192,50 @@ export class ReservationsCalendarMainPageComponent implements OnInit {
 
   openCreateReservationDialog(): void {
     const dialogRef = this.dialog.open(ReservationDialogComponent, {
-      width: '80%', data: {}
+      width: '80%', maxHeight: '90vh', data: {}
     });
     dialogRef.afterClosed().subscribe((reload: boolean) => {
       if (reload) { this.handleViewDateChange() }
     });
+  }
+
+  transformDayEvents(day: any): DayEvent[] {
+    const cachedEvents = this.dayEventsMap.get(day.date.toDateString());
+    if (cachedEvents) { return cachedEvents; }
+
+    if (!this.filtersForm.controls.booking_object_type) { return []; }
+
+    const objectMap = new Map<string, CalendarEvent[]>();
+    day.events.forEach((event: CalendarEvent) => {
+      if (event.reservation.state === 'cancelled') { return; }
+      event.reservation.booking_objects.forEach(
+        obj => {
+          if (objectMap.has(obj.id)) {
+            objectMap.get(obj.id)?.push(event);
+          } else {
+            objectMap.set(obj.id, [event]);
+          }
+        }
+      );
+    });
+
+    const dayEvents: DayEvent[] = [];
+    for (const obj of this.bookingObjects) {
+      const dayEvent: DayEvent = { obj: obj };
+      if (obj.pricing_type !== 'daily-payment') {
+        dayEvent.count = objectMap.get(obj.id)?.length;
+      }
+      dayEvent.events = objectMap.get(obj.id)?.sort(
+        (a, b) => a.start > b.start ? 1 : -1
+      );
+      dayEvents.push(dayEvent);
+    }
+
+    this.dayEventsMap.set(day.date.toDateString(), dayEvents);
+    return dayEvents;
+  }
+
+  getCompositeTooltipTitle(events: CalendarEvent[], obj: BookingObject): string {
+    return `<b>${obj.title}</b><br>` + events.map(x => x.shortTitle).join('<br>');
   }
 }

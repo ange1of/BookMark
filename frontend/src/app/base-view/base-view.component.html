@@ -1,8 +1,5 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav [(opened)]="sidenavOpened" mode="side">
-<!--    <div *ngIf="user" class="d-flex">-->
-<!--      -->
-<!--    </div>-->
     <mat-nav-list>
       <mat-list-item *ngIf="user" [disabled]="false" [disableRipple]="true"
                      class="user-block d-flex justify-content-between">
